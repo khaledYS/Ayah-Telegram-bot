@@ -1,8 +1,10 @@
 const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const quran = require("quran")
+require('dotenv').config();
+
 // replace the value below with the Telegram token you receive from BotFather
-const token = "5418042042:AAHGiNK87v2MNv7fElAm9uLR7HsEISZ2nB8";
+const token = process.env.TOKEN;
 
 function ayahOptions(ayah) {
     const ayahMovers = [
