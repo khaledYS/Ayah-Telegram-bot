@@ -27,16 +27,15 @@ module.exports.tafsirAyahOptions = function tafsirAyahOptions(ayah, text) {
   const ayahMovers = [
     ayah.number - 1 < 1
       ? null
-      : { text: "⬅ السابق", callback_data: `previous_ayah|${ayah.number}` },
+      : { text: "⬅ السابق", callback_data: `previous_tafsir_ayah|${ayah.number}` },
     ayah.number + 1 > 6236
       ? null
-      : { text: "التالي ➡", callback_data: `next_ayah|${ayah.number}` },
+      : { text: "التالي ➡", callback_data: `next_tafsir_ayah|${ayah.number}` },
   ];
   return {
     reply_markup: {
       inline_keyboard: [
         [...ayahMovers.filter((value) => value !== null)],
-        [{text: "صوتيه🔊", callback_data: `ayah_audio|${ayah.number}`}],
         [
           {
             text: "شارك تفسير الآيه",
@@ -115,4 +114,12 @@ module.exports.getRandomPage = function getRandomPage (){
   const randomPageNumber = Math.floor(Math.random() * totalAyahs) + 1;
   // Get the ayah with the random number using the 
   return randomPageNumber;
+};
+
+
+module.exports.preStored  = {
+  commands:
+  "/ayah - آية من القرآن الكريم بشكل عشوائي \n/page - صفحة من القرآن الكريم بشكل عشوائي\n/subscribe - اشترك في الآيات التي تُرسل بشكل عشوائي🙊\n/unsubscribe - الغي الاشتراك",
+  start:
+  "حييي الله تو ما نور البوت, اضغط على /commands عشان تعرف الاامر اللازمه للاستخدام",
 };

@@ -1,25 +1,19 @@
 const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
 const app = express();
-const {getRandomAyah, getRandomPage} = require("./utils")
+const {getRandomAyah, getRandomPage, preStored} = require("./utils")
 const {sendAyahTafsir,sendAyah,sendAyahAudio,sendPage, sendPageTafsir} = require("./quran-api.js")
 require("dotenv").config();
 
 
-const preStored = {
-  commands:
-  "/ayah - آية من القرآن الكريم بشكل عشوائي \n/page - صفحة من القرآن الكريم بشكل عشوائي\n/subscribe - اشترك في الآيات التي تُرسل بشكل عشوائي🙊\n/unsubscribe - الغي الاشتراك",
-  start:
-  "حييي الله تو ما نور البوت, اضغط على /commands عشان تعرف الاامر اللازمه للاستخدام",
-};
 const token = process.env.TOKEN;
 // Create a bot instance
 const bot = new TelegramBot(token, { polling: true });
 
 
 app.get(`/bot`, (req, res) => {
-  res.json("hi");
-  console.log("recieved")
+  bot.sendMessage(1326076292, "recieved")
+  res.status(200).json("hi");
 });
 
 
@@ -70,6 +64,14 @@ bot.on("callback_query", async (query) => {
     await sendAyahAudio(Number(data[0]), chatId, bot)
   }else if (option === "tafsir_page"){
     await sendPageTafsir(Number(data[0]), chatId, bot)
+  }else if (option === "previous_tafsir_page"){
+    await sendPageTafsir(Number(data[0]) - 1, chatId, bot)
+  }else if (option === "next_tafsir_page"){
+    await sendPageTafsir(Number(data[0]) + 1, chatId, bot)
+  }else if (option === "previous_tafsir_ayah"){
+    await sendAyahTafsir(Number(data[0]) - 1, chatId, bot)
+  }else if (option === "next_tafsir_ayah"){
+    await sendAyahTafsir(Number(data[0]) + 1, chatId, bot)
   }
 });
 

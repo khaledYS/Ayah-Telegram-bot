@@ -1,5 +1,5 @@
 const axios = require("axios")
-const {pageOptions, ayahOptions} = require("./utils")
+const {pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions} = require("./utils")
 
 
 module.exports.sendAyah = async function sendAyah(ayahNumber, chatId, bot) {
@@ -17,8 +17,8 @@ module.exports.sendAyahTafsir = async function sendAyahTafsir(ayahNumber, chatId
         `https://api.alquran.cloud/v1/ayah/${ayahNumber}/ar.muyassar`
     );
     const tafsiredAyah = respond.data.data;
-    const text = `-${tafsiredAyah.surah.name}- \n ${tafsiredAyah.numberInSurah}-${tafsiredAyah.text}`;
-    await bot.sendMessage(chatId, text);
+    const text = `تفسير ${tafsiredAyah.surah.name} \n ${tafsiredAyah.numberInSurah}-${tafsiredAyah.text}`;
+    await bot.sendMessage(chatId, text, tafsirAyahOptions(tafsiredAyah, text));
 }
 module.exports.sendAyahAudio = async function sendAyahAudio(ayahNumber, chatId, bot) {
     await bot.sendChatAction(chatId, "record_voice");
@@ -41,7 +41,7 @@ module.exports.sendPage = async function sendPage(pageNumber, chatId, bot) {
         const surahNumberOfPreviousAyah = ind <= 0 ? null : surahs[ind - 1].surah.number;
         const surahNumberOfCurrentAyah = val.surah.number;
         const surahName = surahNumberOfCurrentAyah === surahNumberOfPreviousAyah ? null : val.surah.name;
-        const text = `${surahName ? `\n\n\n -${surahName}-: \n` : ""}${val.text}${val.sajda ? "[سجدة]" : ""}(${val.numberInSurah})`
+        const text = `${surahName ? `\n\n -${surahName}-: \n` : ""}${val.text}${val.sajda ? "[سجدة]" : ""}(${val.numberInSurah})`
         return text;
     })
     surahs = `${surahs.join("")} \n\n\n صفحة صـ${page.number}`
@@ -52,7 +52,16 @@ module.exports.sendPageTafsir = async function sendPageTafsir(pageNumber, chatId
     const respond = await axios.get(
         `https://api.alquran.cloud/v1/page/${pageNumber}/ar.muyassar`
     );
-    const tafsiredPage = respond.data.data.ayahs;
-    await bot.sendMessage(chatId, tafsiredPage.map(val => `(${val.numberInSurah})-${val.text}\n`).join("\n"));
+    const tafsiredPage = respond.data.data;
+    const ayahs = tafsiredPage.ayahs;
+    let text = ayahs.map((val, ind)=>{
+        const surahNumberOfPreviousAyah = ind <= 0 ? null : ayahs[ind - 1].surah.number;
+        const surahNumberOfCurrentAyah = val.surah.number;
+        const surahName = surahNumberOfCurrentAyah === surahNumberOfPreviousAyah ? null : val.surah.name;
+        const text = `${surahName ? `\n\nتفسير${surahName}\n` : ""}(${val.numberInSurah})-${val.text}`;
+        return text;
+    })
+    text = `${text.join("\n")} \n\n صــ${tafsiredPage.number}`;
+    await bot.sendMessage(chatId, text, {...tafsirPageOptions(tafsiredPage, text)}).catch(e=>{bot.sendMessage(chatId, JSON.stringify(e))});
 }
 
