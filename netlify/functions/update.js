@@ -12,7 +12,7 @@ const {
 const serverless = require("serverless-http")
 require("dotenv").config();
 
-const port = 4423;
+const port = 443;
 
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token, {});
