@@ -1,14 +1,14 @@
 const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
 const app = express();
-const { getRandomAyah, getRandomPage, preStored } = require("./utils");
+const { getRandomAyah, getRandomPage, preStored } = require("./../../utils");
 const {
   sendAyahTafsir,
   sendAyah,
   sendAyahAudio,
   sendPage,
   sendPageTafsir,
-} = require("./quran-api.js");
+} = require("./../../quran-api.js");
 require("dotenv").config();
 
 const token = process.env.TOKEN;
