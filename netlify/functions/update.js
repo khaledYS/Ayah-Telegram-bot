@@ -5,10 +5,7 @@ express.json()
 // Create a bot instance
 
 exports.handler = async (req) =>{
-    console.log(req)
-    let jsooneed = JSON.stringify(req);
-    jsooneed = JSON.parse(jsooneed);
-    let message = jsooneed.body.message;
+    let message = JSON.parse(req.body);
     console.log(message, "here")
     try{
         await handleTelegram(message)
