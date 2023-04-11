@@ -15,7 +15,6 @@ const token = process.env.TOKEN;
 // Create a bot instance
 const bot = new TelegramBot(token);
 
-// Respond to /start command
 exports.handler = async (req) =>{
     let message = JSON.parse(req.body).message;
     console.log("working here")
