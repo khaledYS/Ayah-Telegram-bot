@@ -2,7 +2,7 @@ const { handleTelegram } = require("../..");
 // Create a bot instance
 
 exports.handler = async (req) =>{
-    const message = req.body;
+    const message = req.body.message;
     console.log(req.body, "here")
     try{
         await handleTelegram(message)
