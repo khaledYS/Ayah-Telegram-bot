@@ -3,7 +3,7 @@ const { handleTelegram } = require("../..");
 
 exports.handler = async (req) =>{
     // const message = JSON.parse(req.body);
-    console.log(req, "here")
+    console.log(req.body, "here")
     // handleTelegram(message)
     return {
         statusCode: 200
