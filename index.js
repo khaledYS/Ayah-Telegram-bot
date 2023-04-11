@@ -136,7 +136,6 @@ async function handleTextMessage(msg) {
 
 module.exports.handleTelegram = async function (message) {
   try{
-    console.log("start", message, "end")
     await bot.processUpdate(message);
   }catch(e){
     throw new Error(e)
