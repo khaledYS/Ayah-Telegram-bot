@@ -135,5 +135,6 @@ async function handleTextMessage(msg) {
 }
 
 module.exports.handleTelegram = function (message) {
+  console.log(message, bot)
   bot.processUpdate(message);
 };
