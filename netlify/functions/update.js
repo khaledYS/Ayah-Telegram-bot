@@ -14,7 +14,7 @@ require("dotenv").config();
 const port = process.env.PORT || 3000;
 
 const token = process.env.TOKEN;
-const bot = new TelegramBot(token, {webHook:{port:port}});
+const bot = new TelegramBot(token);
 const url = "https://ayah-bot.netlify.app/.netlify/functions/update";
 
 exports.handler = async function (event){
@@ -26,6 +26,7 @@ app.use(express.json())
 // We are receiving updates at the route below!
 app.post(`/bot${token}`, (req, res) => {
   bot.processUpdate(req.body);
+  console.log("responded to a message")
   res.sendStatus(200);
 });
 
