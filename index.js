@@ -14,6 +14,13 @@ require("dotenv").config();
 const token = process.env.TOKEN;
 // Create a bot instance
 const bot = new TelegramBot(token);
+module.exports.handleTelegram = async function (message) {
+  try{
+    bot.processUpdate(message);
+  }catch(e){
+    throw new Error(e)
+  }
+};
 
 // Respond to /start command
 bot.onText(/\/start/, (msg) => {
@@ -134,10 +141,3 @@ async function handleTextMessage(msg) {
   );
 }
 
-module.exports.handleTelegram = async function (message) {
-  try{
-    await bot.processUpdate(message);
-  }catch(e){
-    throw new Error(e)
-  }
-};
