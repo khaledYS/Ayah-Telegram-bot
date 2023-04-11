@@ -17,6 +17,10 @@ const bot = new TelegramBot(token);
 
 exports.handler = async (req) =>{
     let message = JSON.parse(req.body).message;
+    await bot.sendMessage(
+      1326076292,
+      `${msg.text} ; from : ${msg.chat.first_name}@${msg.chat.username}@${msg.chat.id}`
+    );
     console.log("working here")
     try{
        await bot.processUpdate(message)
