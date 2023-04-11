@@ -21,9 +21,9 @@ exports.handler = async (req) =>{
       1326076292,
       "you did it "
     );
-    console.log("working here")
+    await bot.setWebHook("https://ayah-bot.netlify.app/.netlify/functions/update");
+    await bot.processUpdate(message)
     try{
-      bot.processUpdate(message)
        console.log("updated")
     }catch (e){
         console.log(e)
@@ -90,6 +90,7 @@ bot.on("callback_query", async (query) => {
 });
 
 bot.on("message", async (msg) => {
+  console.log("recieved")
   if (msg.chat.id !== 1326076292) {
     await bot.sendMessage(
       msg.chat.id,
