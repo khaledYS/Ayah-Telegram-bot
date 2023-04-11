@@ -80,7 +80,7 @@ bot.on("callback_query", async (query) => {
 
 bot.on("message", async (msg) => {
   if (msg.chat.id !== 1326076292) {
-    bot.sendMessage(
+    await bot.sendMessage(
       msg.chat.id,
       "Unfortunetly...., The Bot is under development. Excuse me for any bad response or wrong one."
     );
@@ -96,36 +96,40 @@ bot.on("message", async (msg) => {
     );
     if (!matches) {
       // The message is not a command
-      handleTextMessage(msg);
+      await handleTextMessage(msg);
     }
   } catch {
-    bot.sendMessage(msg.chat.id, "امممم, رسالتك غير مفهومه ؟!");
+    await bot.sendMessage(msg.chat.id, "امممم, رسالتك غير مفهومه ؟!");
   }
 });
 
-function handleTextMessage(msg) {
+async function handleTextMessage(msg) {
   const chatId = msg.chat.id;
   const text = msg.text.trim();
 
   // make sure that the input is num structure so we can define that it's requesting a page number;
   let pageNumber = Number(text);
   pageNumber = isNaN(pageNumber) ? null : pageNumber;
-  let verseNumber = text.split(":");
+  let ayahNumber = text.split(":");
   // make sure that the input is num:num structure so we can define that it's requesting a verse number;
-  verseNumber =
-    verseNumber.length === 2 &&
-    !isNaN(Number(verseNumber[0])) &&
-    !isNaN(Number(verseNumber[1]))
-      ? `${Number(verseNumber[0])}:${Number(verseNumber[1])}`
+  ayahNumber =
+    ayahNumber.length === 2 &&
+      !isNaN(Number(ayahNumber[0])) &&
+      !isNaN(Number(ayahNumber[1]))
+      ? `${Number(ayahNumber[0])}:${Number(ayahNumber[1])}`
       : null;
   if (pageNumber) {
-    sendPage(pageNumber, chatId, bot);
-  } else if (versei)
-    // Handle regular text messages - !NOTE : must change this so they can accept surah:verse structure;
-    bot.sendMessage(
-      chatId,
-      `You can't send messages, only commands. \n ${preStored.commands}`
-    );
+    await sendPage(pageNumber, chatId, bot);
+    return ;
+  } else if (ayahNumber) {
+    await sendAyah(ayahNumber, chatId, bot);
+    return ;
+  }
+  // Handle regular text messages - !NOTE : must change this so they can accept surah:verse structure;
+  bot.sendMessage(
+    chatId,
+    `You can't send messages, only commands. \n ${preStored.commands}`
+  );
 }
 
 const port = process.env.PORT || 3000;
