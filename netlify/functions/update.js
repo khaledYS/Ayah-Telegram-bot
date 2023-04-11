@@ -17,10 +17,10 @@ const port = process.env.PORT || 3000;
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token, {});
 const url = "https://ayah-bot.netlify.app/.netlify/functions/update";
-const handler = serverless(app);
 
 bot.setWebHook(`${url}/bot${token}`);
 app.use(express.json())
+const handler = serverless(app);
 
 // We are receiving updates at the route below!
 app.post(`/bot${token}`, (req, res) => {
