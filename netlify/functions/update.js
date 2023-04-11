@@ -12,15 +12,14 @@ const {
 const serverless = require("serverless-http")
 require("dotenv").config();
 
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 3000;
 
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token, {});
-const url = "https://ayah-bot.netlify.app/.netlify/functions/update";
+const url = `https://ayah-bot.netlify.app:${port}/.netlify/functions/update`;
 
 bot.setWebHook(`${url}/bot${token}`);
 app.use(express.json())
-const handler = serverless(app);
 
 // We are receiving updates at the route below!
 app.post(`/bot${token}`, (req, res) => {
@@ -28,11 +27,17 @@ app.post(`/bot${token}`, (req, res) => {
   console.log("responded to a message")
   res.sendStatus(200);
 });
+app.get(`/bot${token}`, (req, res) => {
+  console.log("updateddd")
+  res.sendStatus(200);
+});
 
 // Start Express Server
 app.listen(port, () => {
   console.log(`Express server is listening on ${port}`);
 });
+
+const handler = serverless(app);
 
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, preStored.start);
@@ -157,6 +162,6 @@ bot.on("message", async (msg) => {
   
   // Export the handler function for Netlify
   module.exports.handler = async (event, context) => {
-    console.log("dd", event, context, "ee")
+    console.log(event, "j")
     return await handler(event, context);
   };
