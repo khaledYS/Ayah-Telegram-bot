@@ -4,7 +4,7 @@ express.json()
 // Create a bot instance
 
 exports.handler = async (req) =>{
-    let message = req["body"];
+    let message = req["body"].message;
     console.log(message, "here")
     try{
         await handleTelegram(message)
