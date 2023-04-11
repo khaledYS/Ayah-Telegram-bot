@@ -98,6 +98,13 @@ bot.on("message", async (msg) => {
   }
 });
 
+bot.on("webhook_error", (e)=>{
+  console.log(e)
+})
+bot.on("polling_error", (e)=>{
+  console.log(e)
+})
+
 async function handleTextMessage(msg) {
   const chatId = msg.chat.id;
   const text = msg.text.trim();
@@ -127,6 +134,6 @@ async function handleTextMessage(msg) {
   );
 }
 
-module.exports.handleTelegram = async function (message) {
-  await bot.processUpdate(message);
+module.exports.handleTelegram = function (message) {
+  bot.processUpdate(message);
 };
