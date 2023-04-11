@@ -13,7 +13,7 @@ require("dotenv").config();
 
 const token = process.env.TOKEN;
 // Create a bot instance
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, { webHook: true});
 
 app.get(`/bot`, (req, res) => {
   bot.sendMessage(1326076292, "recieved");
@@ -137,3 +137,4 @@ app.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
 });
 
+module.exports.bot = bot;
