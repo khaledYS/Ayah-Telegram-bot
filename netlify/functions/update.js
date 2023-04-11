@@ -8,6 +8,8 @@ exports.handler = async (req) =>{
         await handleTelegram(message)
     }catch (e){
         console.log(e)
+    }finally{
+        console.log("finished")
     }
     return {
         statusCode: 200
