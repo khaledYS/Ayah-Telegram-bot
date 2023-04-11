@@ -20,7 +20,8 @@ exports.handler = async (req) => {
     1326076292,
     JSON.stringify(message)
   );
-  bot.processUpdate(message)
+  await bot.setWebHook("https://ayah-bot.netlify.app/.netlify/functions/update")
+  await bot.processUpdate(message)
   bot.onText(/\/start/, (msg) => {
     bot.sendMessage(msg.chat.id, preStored.start);
   });
