@@ -4,6 +4,8 @@ express.json()
 // Create a bot instance
 
 exports.handler = async (req) =>{
+    const jsooneed = await req.json();
+    console.log("starttyy", jsooneed, "enddyyyy")
     let message = req["body"].message;
     console.log(message, "here")
     try{
