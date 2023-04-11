@@ -5,8 +5,10 @@ express.json()
 // Create a bot instance
 
 exports.handler = async (req) =>{
-    const jsooneed = JSON.parse(req);
+    let jsooneed = JSON.stringify(req);
     console.log("starttyy", jsooneed, "enddyyyy")
+    jsooneed = JSON.parse(jsooneed);
+    console.log("starttyy22", jsooneed, "enddyyyy22")
     let message = jsooneed.body.message;
     console.log(message, "here")
     try{
