@@ -14,10 +14,12 @@ require("dotenv").config();
 const port = process.env.PORT || 3000;
 
 const token = process.env.TOKEN;
-const bot = new TelegramBot(token);
+const bot = new TelegramBot(token, {webHook:{port:port}});
 const url = "https://ayah-bot.netlify.app/.netlify/functions/update";
 
-bot.setWebHook(`${url}/bot${token}`);
+exports.handler = async function (event){
+  bot.setWebHook(`${url}/bot${token}`);
+}
 
 app.use(express.json())
 
