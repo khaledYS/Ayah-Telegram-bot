@@ -1,8 +1,8 @@
-const { bot } = require("../../index");
+const { handleTelegram } = require("../../index");
 
 exports.handler = async (req) =>{
     const message = JSON.parse(req.body);
-    bot.processUpdate(message);
+    await handleTelegram(message)
     return {
         statusCode: 200
     }

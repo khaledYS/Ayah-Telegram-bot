@@ -13,12 +13,7 @@ require("dotenv").config();
 
 const token = process.env.TOKEN;
 // Create a bot instance
-const bot = new TelegramBot(token, { webHook: true});
-
-app.get(`/bot`, (req, res) => {
-  bot.sendMessage(1326076292, "recieved");
-  res.status(200).json("hi");
-});
+const bot = new TelegramBot(token);
 
 // Respond to /start command
 bot.onText(/\/start/, (msg) => {
@@ -114,16 +109,16 @@ async function handleTextMessage(msg) {
   // make sure that the input is num:num structure so we can define that it's requesting a verse number;
   ayahNumber =
     ayahNumber.length === 2 &&
-      !isNaN(Number(ayahNumber[0])) &&
-      !isNaN(Number(ayahNumber[1]))
+    !isNaN(Number(ayahNumber[0])) &&
+    !isNaN(Number(ayahNumber[1]))
       ? `${Number(ayahNumber[0])}:${Number(ayahNumber[1])}`
       : null;
   if (pageNumber) {
     await sendPage(pageNumber, chatId, bot);
-    return ;
+    return;
   } else if (ayahNumber) {
     await sendAyah(ayahNumber, chatId, bot);
-    return ;
+    return;
   }
   // Handle regular text messages - !NOTE : must change this so they can accept surah:verse structure;
   bot.sendMessage(
@@ -132,9 +127,6 @@ async function handleTextMessage(msg) {
   );
 }
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Express server listening on port ${port}`);
-});
-
-module.exports.bot = bot;
+module.exports.handleTelegram = async function (message) {
+  await bot.processUpdate(message);
+};
