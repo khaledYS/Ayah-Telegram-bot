@@ -17,7 +17,7 @@
     "telegram-send-message": "0.0.4"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "npm run start:nodemon index.js",
     "start:nodemon": "nodemon index.js"
   },
   "keywords": [],
