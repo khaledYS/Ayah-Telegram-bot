@@ -24,13 +24,7 @@ let result = bot.setWebHook(`${url}/bot${token}`, {
 })
 
 router.post(`/bot${token}`, async (req, res) => {
-  try{
-    bot.processUpdate(req.body.message);
-    console.log("passed")
-  }catch(e){
-    console.error(e, "error occured")
-  }
-  console.log(req.body, "hi")
+  bot.processUpdate(req.body)
   res.sendStatus(200);
 });
 
@@ -104,6 +98,7 @@ bot.on("callback_query", async (query) => {
 });
 
 bot.on("message", async (msg) => {
+  console.log(msg)
   await bot.sendMessage(1326076292, JSON.stringify(msg))
   await bot.sendMessage(msg.chat.id, msg.text)
   // Check if the message matches the command pattern
