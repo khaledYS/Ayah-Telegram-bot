@@ -1,6 +1,5 @@
 const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
-const app = express();
 const serverless = require('serverless-http');
 const { getRandomAyah, getRandomPage, preStored } = require("../../utils");
 const {
@@ -18,10 +17,11 @@ const bot = new TelegramBot(token);
 const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
 const router = express.Router();
 bot.setWebHook(`${url}/bot${token}`);
+const app = express();
 app.use(express.json())
 
 router.post(`/bot${token}`, async (req, res) => {
-  await bot.processUpdate(req.body);
+  bot.processUpdate(req.body);
   console.log(req.body)
   res.sendStatus(200);
 });
