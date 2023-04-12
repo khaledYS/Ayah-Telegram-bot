@@ -24,8 +24,12 @@ let result = bot.setWebHook(`${url}/bot${token}`, {
 })
 
 router.post(`/bot${token}`, (req, res) => {
-  // bot.processUpdate(req.body);
-  console.log(req.body.message, "hi")
+  try{
+    bot.processUpdate(req.body);
+  }catch(e){
+    console.error(e, "error occured")
+  }
+  console.log(req.body, "hi")
   res.sendStatus(200);
 });
 
