@@ -12,14 +12,7 @@ const {
 } = require("../../quran-api.js");
 require("dotenv").config();
 
-const port = process.env.PORT || 3000;
-
-const options = {
-  webHook: {
-    // Just use 443 directly
-    port: port
-  }
-};
+module.exports.handler = serverless(app)
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token);
 const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
@@ -47,7 +40,7 @@ router.get(`/bot${token}`, (req, res) => {
 });
 
 // Start Express Server
-app.use("/.netlify/functions/update", router)
+app.use(router)
 
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, preStored.start);
@@ -171,4 +164,3 @@ bot.on("message", async (msg) => {
   
   
   // Export the handler function for Netlify
-  module.exports.handler = serverless(app)
