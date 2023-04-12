@@ -30,7 +30,9 @@ bot.setWebHook(`${url}/bot${token}`);
 router.get(`/`, (req, res) => {
   bot.sendMessage(1326076292, "get")
   console.log("updateddd")
-  res.sendStatus(200);
+  res.json({
+    "hi":"updated"
+  })
 });
 router.post(`/bot${token}`, (req, res) => {
   bot.sendMessage(1326076292, "post")
