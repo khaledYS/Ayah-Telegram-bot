@@ -14,13 +14,17 @@ require("dotenv").config();
 
 const port = 443;
 
+const options = {
+  webHook: {
+    // Just use 443 directly
+    port: 443
+  }
+};
 const token = process.env.TOKEN;
-const bot = new TelegramBot(token, {});
-const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
+const bot = new TelegramBot(token, options);
+const url = 'YOUR_DOMAIN_ALIAS' || process.env.NOW_URL;
 
 bot.setWebHook(`${url}/bot${token}`);
-app.use(express.json())
-const handler = serverless(app);
 
 // We are receiving updates at the route below!
 app.post(`/bot${token}`, (req, res) => {
@@ -163,7 +167,4 @@ bot.on("message", async (msg) => {
   
   
   // Export the handler function for Netlify
-  module.exports.handler = async (event, context) => {
-    console.log(event, "j")
-    return await handler(event, context);
-  };
+  module.exports.handler = serverless(app)
