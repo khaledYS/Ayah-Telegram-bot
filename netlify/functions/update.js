@@ -27,6 +27,11 @@ const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
 bot.setWebHook(`${url}/bot${token}`);
 
 // We are receiving updates at the route below!
+app.get(`/`, (req, res) => {
+  bot.sendMessage(1326076292, "get")
+  console.log("updateddd")
+  res.sendStatus(200);
+});
 app.post(`/bot${token}`, (req, res) => {
   bot.sendMessage(1326076292, "post")
   bot.processUpdate(req.body);
