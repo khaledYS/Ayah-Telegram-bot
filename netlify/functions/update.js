@@ -22,22 +22,6 @@ bot.setWebHook(`${url}/bot${token}`, {
   allowed_updates: ["message"]
 })
 
-router.post(`/bot${token}`, async (req, res) => {
-  const message = JSON.parse(req.apiGateway.event.body);
-  console.log(message);
-  bot.processUpdate(message);
-  res.sendStatus(200);
-});
-
-router.get(`/bot${token}`, async (req, res) => {
-  console.log("console.log()")
-  res.sendStatus(200);
-});
-
-
-router.get("/", async(req, res)=>{
-  res.send("hi")
-})
 
 // Start Express Server
 
@@ -77,13 +61,13 @@ bot.on("callback_query", async (query) => {
       await sendAyahTafsir(data[0], chatId, bot);
     } else if (option === "next_ayah") {
       await sendAyah(Number(data[0]) + 1, chatId, bot);
-  } else if (option === "previous_ayah") {
-    await sendAyah(Number(data[0]) - 1, chatId, bot);
-  } else if (option === "next_page") {
-    await sendPage(Number(data[0]) + 1, chatId, bot);
-  } else if (option === "previous_page") {
-    await sendPage(Number(data[0]) - 1, chatId, bot);
-  } else if (option === "ayah_audio") {
+    } else if (option === "previous_ayah") {
+      await sendAyah(Number(data[0]) - 1, chatId, bot);
+    } else if (option === "next_page") {
+      await sendPage(Number(data[0]) + 1, chatId, bot);
+    } else if (option === "previous_page") {
+      await sendPage(Number(data[0]) - 1, chatId, bot);
+    } else if (option === "ayah_audio") {
     await sendAyahAudio(Number(data[0]), chatId, bot);
   } else if (option === "tafsir_page") {
     await sendPageTafsir(Number(data[0]), chatId, bot);
@@ -149,7 +133,23 @@ async function handleTextMessage(msg) {
   }
   
   
-
+  router.post(`/bot${token}`, async (req, res) => {
+    const message = JSON.parse(req.apiGateway.event.body);
+    console.log(message);
+    bot.processUpdate(message);
+    res.sendStatus(200);
+  });
+  
+  router.get(`/bot${token}`, async (req, res) => {
+    console.log("console.log()")
+    res.sendStatus(200);
+  });
+  
+  
+  router.get("/", async(req, res)=>{
+    res.send("hi")
+  })
+  
   
   // Export the handler function for Netlify
   app.use("/.netlify/functions/update", router)
