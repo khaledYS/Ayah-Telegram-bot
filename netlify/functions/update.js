@@ -21,8 +21,8 @@ bot.setWebHook(`${url}/bot${token}`);
 app.use(express.json())
 
 router.post(`/bot${token}`, async (req, res) => {
-  await bot.processUpdate(req.body.message);
-  console.log(req.body.message)
+  await bot.processUpdate(req.body);
+  console.log(req.body)
   res.sendStatus(200);
 });
 
