@@ -1,6 +1,7 @@
 const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
 const app = express();
+const serverless = require('netlify-lambda');
 const { getRandomAyah, getRandomPage, preStored } = require("../../utils");
 const {
   sendAyahTafsir,
@@ -12,7 +13,7 @@ const {
 const serverless = require("serverless-http")
 require("dotenv").config();
 
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 3000;
 
 const options = {
   webHook: {
