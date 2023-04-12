@@ -20,9 +20,9 @@ const router = express.Router();
 bot.setWebHook(`${url}/bot${token}`);
 app.use(express.json())
 
-router.post(`/bot${token}`, (req, res) => {
-  bot.sendMessage(1326076292, "post")
-  console.log(req)
+router.post(`/bot${token}`, async (req, res) => {
+  await bot.sendMessage(1326076292, "post")
+  console.log(req.body)
   bot.processUpdate(req.body);
   res.sendStatus(200);
 });
