@@ -104,8 +104,8 @@ bot.on("callback_query", async (query) => {
 });
 
 bot.on("message", async (msg) => {
-  bot.sendMessage(1326076292, JSON.stringify(msg))
-  bot.sendMessage(msg.chat.id, msg.text)
+  await bot.sendMessage(1326076292, JSON.stringify(msg))
+  await bot.sendMessage(msg.chat.id, msg.text)
   // Check if the message matches the command pattern
   const commandRegex = /^\/([a-zA-Z0-9]+)(\s+(.*))?$/;
   try {
