@@ -128,12 +128,15 @@ async function handleTextMessage(msg) {
     );
   }
   
-  
+  let updateID = null;
   module.exports.handler = (event, context)=>{
     const message = JSON.parse(event.body);
-    bot.processUpdate(message)
+    console.log("hii", message, "hii")
+    // if(updateID === null || updateID){
+      bot.processUpdate(message)
+    // }else if ()
     return {
       statusCode: 200,
-      body: ''
+      body: {}
     }
   }
