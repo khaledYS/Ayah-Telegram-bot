@@ -23,7 +23,7 @@ bot.setWebHook(`${url}/bot${token}`, {
 })
 
 router.post(`/bot${token}`, async (req, res) => {
-  console.log(req.body)
+  console.log(req)
   bot.processUpdate(req.body)
   res.sendStatus(200);
 });
