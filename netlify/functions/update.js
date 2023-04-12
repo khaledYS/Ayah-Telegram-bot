@@ -132,4 +132,7 @@ async function handleTextMessage(msg) {
   module.exports.handler = (event, context)=>{
     const message = JSON.parse(event.body);
     bot.processUpdate(message)
+    return {
+      statusCode: 200
+    }
   }
