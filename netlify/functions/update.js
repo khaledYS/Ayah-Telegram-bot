@@ -18,13 +18,14 @@ const bot = new TelegramBot(token);
 const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
 const router = express.Router();
 bot.setWebHook(`${url}/bot${token}`);
+app.use(express.json())
 
 // We are receiving updates at the route below!
 router.get(`/`, (req, res) => {
   bot.sendMessage(1326076292, "get")
   console.log("updateddd")
   res.json({
-    "hi":"updated"
+    "hi": "updated"
   })
 });
 router.post(`/bot${token}`, (req, res) => {
@@ -40,7 +41,6 @@ router.get(`/bot${token}`, (req, res) => {
 });
 
 // Start Express Server
-app.use("/.netlify/functions/update",router)
 
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, preStored.start);
@@ -73,9 +73,9 @@ bot.on("callback_query", async (query) => {
   await bot.sendMessage(
     1326076292,
     `${option} ; from : ${query.from.first_name}@${query.from.username}`
-    );
-    if (option === "tafsir_ayah") {
-      await sendAyahTafsir(data[0], chatId, bot);
+  );
+  if (option === "tafsir_ayah") {
+    await sendAyahTafsir(data[0], chatId, bot);
   } else if (option === "next_ayah") {
     await sendAyah(Number(data[0]) + 1, chatId, bot);
   } else if (option === "previous_ayah") {
@@ -104,48 +104,48 @@ bot.on("message", async (msg) => {
     await bot.sendMessage(
       msg.chat.id,
       "Unfortunetly...., The Bot is under development. Excuse me for any bad response or wrong one."
-      );
-      return;
+    );
+    return;
+  }
+  // Check if the message matches the command pattern
+  const commandRegex = /^\/([a-zA-Z0-9]+)(\s+(.*))?$/;
+  try {
+    const matches = msg.text.match(commandRegex);
+    await bot.sendMessage(
+      1326076292,
+      `${msg.text} ; from : ${msg.chat.first_name}@${msg.chat.username}@${msg.chat.id}`
+    );
+    if (!matches) {
+      // The message is not a command
+      await handleTextMessage(msg);
     }
-    // Check if the message matches the command pattern
-    const commandRegex = /^\/([a-zA-Z0-9]+)(\s+(.*))?$/;
-    try {
-      const matches = msg.text.match(commandRegex);
-      await bot.sendMessage(
-        1326076292,
-        `${msg.text} ; from : ${msg.chat.first_name}@${msg.chat.username}@${msg.chat.id}`
-        );
-        if (!matches) {
-          // The message is not a command
-          await handleTextMessage(msg);
-        }
-      } catch {
-        await bot.sendMessage(msg.chat.id, "امممم, رسالتك غير مفهومه ؟!");
-      }
-    });
-    
-    bot.on("webhook_error", (e)=>{
-      console.log(e)
-    })
-    bot.on("polling_error", (e)=>{
-      console.log(e)
-    })
-    
-    async function handleTextMessage(msg) {
-      const chatId = msg.chat.id;
-      const text = msg.text.trim();
-      
-      // make sure that the input is num structure so we can define that it's requesting a page number;
-      let pageNumber = Number(text);
+  } catch {
+    await bot.sendMessage(msg.chat.id, "امممم, رسالتك غير مفهومه ؟!");
+  }
+});
+
+bot.on("webhook_error", (e) => {
+  console.log(e)
+})
+bot.on("polling_error", (e) => {
+  console.log(e)
+})
+
+async function handleTextMessage(msg) {
+  const chatId = msg.chat.id;
+  const text = msg.text.trim();
+
+  // make sure that the input is num structure so we can define that it's requesting a page number;
+  let pageNumber = Number(text);
   pageNumber = isNaN(pageNumber) ? null : pageNumber;
   let ayahNumber = text.split(":");
   // make sure that the input is num:num structure so we can define that it's requesting a verse number;
   ayahNumber =
-  ayahNumber.length === 2 &&
-  !isNaN(Number(ayahNumber[0])) &&
-  !isNaN(Number(ayahNumber[1]))
-  ? `${Number(ayahNumber[0])}:${Number(ayahNumber[1])}`
-  : null;
+    ayahNumber.length === 2 &&
+      !isNaN(Number(ayahNumber[0])) &&
+      !isNaN(Number(ayahNumber[1]))
+      ? `${Number(ayahNumber[0])}:${Number(ayahNumber[1])}`
+      : null;
   if (pageNumber) {
     await sendPage(pageNumber, chatId, bot);
     return;
@@ -157,10 +157,11 @@ bot.on("message", async (msg) => {
   bot.sendMessage(
     chatId,
     `You can't send messages, only commands. \n ${preStored.commands}`
-    );
-  }
-  
-  
-  
-  
-  // Export the handler function for Netlify
+  );
+}
+
+
+
+
+// Export the handler function for Netlify
+app.use("/.netlify/functions/update", router)
