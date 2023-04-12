@@ -22,19 +22,19 @@ app.use(express.json())
 
 router.post(`/bot${token}`, async (req, res) => {
   await bot.sendMessage(1326076292, "post")
+  await bot.processUpdate(req.body);
   console.log(req.body)
-  bot.processUpdate(req.body);
   res.sendStatus(200);
 });
 
 // Start Express Server
 
-bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, preStored.start);
+bot.onText(/\/start/, async (msg) => {
+  await bot.sendMessage(msg.chat.id, preStored.start);
 });
 // response to /commands
-bot.onText(/\/commands/, (msg) => {
-  // bot.sendMessage(msg.chat.id, preStored.commands);
+bot.onText(/\/commands/, async (msg) => {
+  await bot.sendMessage(msg.chat.id, preStored.commands);
 });
 // Respond to /ayah command
 bot.onText(/\/ayah/, async (msg) => {
@@ -49,9 +49,9 @@ bot.onText(/\/page/, async (msg) => {
   await sendPage(pageNumber, msg.chat.id, bot);
 });
 
-bot.onText(/\/help|\/commands/, (msg) => {
+bot.onText(/\/help|\/commands/, async (msg) => {
   // bot.sendMessage(msg.chat.id, helpCommand())
-  bot.sendMessage(msg.chat.id, preStored.commands);
+  await bot.sendMessage(msg.chat.id, preStored.commands);
 });
 
 bot.on("callback_query", async (query) => {
@@ -141,7 +141,7 @@ async function handleTextMessage(msg) {
     return;
   }
   // Handle regular text messages - !NOTE : must change this so they can accept surah:verse structure;
-  bot.sendMessage(
+  await bot.sendMessage(
     chatId,
     `You can't send messages, only commands. \n ${preStored.commands}`
   );
