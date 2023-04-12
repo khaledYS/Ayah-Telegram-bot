@@ -20,23 +20,10 @@ const router = express.Router();
 bot.setWebHook(`${url}/bot${token}`);
 app.use(express.json())
 
-// We are receiving updates at the route below!
-router.get(`/`, (req, res) => {
-  bot.sendMessage(1326076292, "get")
-  console.log("updateddd")
-  res.json({
-    "hi": "updated"
-  })
-});
 router.post(`/bot${token}`, (req, res) => {
   bot.sendMessage(1326076292, "post")
+  console.log(req)
   bot.processUpdate(req.body);
-  console.log("responded to a message")
-  res.sendStatus(200);
-});
-router.get(`/bot${token}`, (req, res) => {
-  bot.sendMessage(1326076292, "get")
-  console.log("updateddd")
   res.sendStatus(200);
 });
 
