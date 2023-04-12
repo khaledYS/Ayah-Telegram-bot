@@ -130,6 +130,6 @@ async function handleTextMessage(msg) {
   
   
   module.exports.handler = (event, context)=>{
-    console.log(event)
-    bot.sendMessage(1326076292, JSON.stringify(context))
+    const message = JSON.parse(event.body);
+    bot.processUpdate(message)
   }
