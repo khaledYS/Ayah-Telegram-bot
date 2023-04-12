@@ -11,7 +11,6 @@ const {
 } = require("../../quran-api.js");
 require("dotenv").config();
 
-module.exports.handler = serverless(app)
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token);
 const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
@@ -19,6 +18,7 @@ const router = express.Router();
 bot.setWebHook(`${url}/bot${token}`);
 const app = express();
 app.use(express.json())
+module.exports.handler = serverless(app)
 
 router.post(`/bot${token}`, async (req, res) => {
   bot.processUpdate(req.body);
