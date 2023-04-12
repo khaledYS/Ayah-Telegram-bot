@@ -23,32 +23,29 @@ const options = {
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token);
 const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
-
+const router = express.Router();
 bot.setWebHook(`${url}/bot${token}`);
 
 // We are receiving updates at the route below!
-app.get(`/`, (req, res) => {
+router.get(`/`, (req, res) => {
   bot.sendMessage(1326076292, "get")
   console.log("updateddd")
   res.sendStatus(200);
 });
-app.post(`/bot${token}`, (req, res) => {
+router.post(`/bot${token}`, (req, res) => {
   bot.sendMessage(1326076292, "post")
   bot.processUpdate(req.body);
   console.log("responded to a message")
   res.sendStatus(200);
 });
-app.get(`/bot${token}`, (req, res) => {
+router.get(`/bot${token}`, (req, res) => {
   bot.sendMessage(1326076292, "get")
   console.log("updateddd")
   res.sendStatus(200);
 });
 
 // Start Express Server
-app.listen(port, () => {
-  console.log(`Express server is listening on ${port, JSON.stringify(app)}`);
-});
-
+app.use("/.netlify/functions/update", router)
 
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, preStored.start);
