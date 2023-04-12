@@ -21,7 +21,6 @@ bot.setWebHook(`${url}/bot${token}`);
 app.use(express.json())
 
 router.post(`/bot${token}`, async (req, res) => {
-  await bot.sendMessage(1326076292, "post")
   await bot.processUpdate(req.body.message);
   console.log(req.body)
   res.sendStatus(200);
@@ -87,21 +86,10 @@ bot.on("callback_query", async (query) => {
 });
 
 bot.on("message", async (msg) => {
-  if (msg.chat.id !== 1326076292) {
-    await bot.sendMessage(
-      msg.chat.id,
-      "Unfortunetly...., The Bot is under development. Excuse me for any bad response or wrong one."
-    );
-    return;
-  }
   // Check if the message matches the command pattern
   const commandRegex = /^\/([a-zA-Z0-9]+)(\s+(.*))?$/;
   try {
     const matches = msg.text.match(commandRegex);
-    await bot.sendMessage(
-      1326076292,
-      `${msg.text} ; from : ${msg.chat.first_name}@${msg.chat.username}@${msg.chat.id}`
-    );
     if (!matches) {
       // The message is not a command
       await handleTextMessage(msg);
@@ -112,9 +100,6 @@ bot.on("message", async (msg) => {
 });
 
 bot.on("webhook_error", (e) => {
-  console.log(e)
-})
-bot.on("polling_error", (e) => {
   console.log(e)
 })
 
