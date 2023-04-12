@@ -12,7 +12,7 @@ const {
 const serverless = require("serverless-http")
 require("dotenv").config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 const options = {
   webHook: {
@@ -21,8 +21,8 @@ const options = {
   }
 };
 const token = process.env.TOKEN;
-const bot = new TelegramBot(token, options);
-const url = 'https://ayah-bot.netlify.app/.netlify/functions/update';
+const bot = new TelegramBot(token);
+const url = `https://ayah-bot.netlify.app:${port}/.netlify/functions/update`;
 
 bot.setWebHook(`${url}/bot${token}`);
 
