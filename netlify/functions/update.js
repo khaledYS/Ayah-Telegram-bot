@@ -25,7 +25,7 @@ let result = bot.setWebHook(`${url}/bot${token}`, {
 
 router.post(`/bot${token}`, async (req, res) => {
   try{
-    await bot.processUpdate(req.body);
+    bot.processUpdate(req.body.message);
     console.log("passed")
   }catch(e){
     console.error(e, "error occured")
@@ -45,7 +45,6 @@ router.get("/", async(req, res)=>{
 })
 
 // Start Express Server
-module.exports.handler = serverless(app)
 
 bot.onText(/\/start/, async (msg) => {
   await bot.sendMessage(msg.chat.id, preStored.start);
@@ -78,11 +77,11 @@ bot.on("callback_query", async (query) => {
   await bot.sendMessage(
     1326076292,
     `${option} ; from : ${query.from.first_name}@${query.from.username}`
-  );
-  if (option === "tafsir_ayah") {
-    await sendAyahTafsir(data[0], chatId, bot);
-  } else if (option === "next_ayah") {
-    await sendAyah(Number(data[0]) + 1, chatId, bot);
+    );
+    if (option === "tafsir_ayah") {
+      await sendAyahTafsir(data[0], chatId, bot);
+    } else if (option === "next_ayah") {
+      await sendAyah(Number(data[0]) + 1, chatId, bot);
   } else if (option === "previous_ayah") {
     await sendAyah(Number(data[0]) - 1, chatId, bot);
   } else if (option === "next_page") {
@@ -125,18 +124,18 @@ bot.on("webhook_error", (e) => {
 async function handleTextMessage(msg) {
   const chatId = msg.chat.id;
   const text = msg.text.trim();
-
+  
   // make sure that the input is num structure so we can define that it's requesting a page number;
   let pageNumber = Number(text);
   pageNumber = isNaN(pageNumber) ? null : pageNumber;
   let ayahNumber = text.split(":");
   // make sure that the input is num:num structure so we can define that it's requesting a verse number;
   ayahNumber =
-    ayahNumber.length === 2 &&
-      !isNaN(Number(ayahNumber[0])) &&
-      !isNaN(Number(ayahNumber[1]))
-      ? `${Number(ayahNumber[0])}:${Number(ayahNumber[1])}`
-      : null;
+  ayahNumber.length === 2 &&
+  !isNaN(Number(ayahNumber[0])) &&
+  !isNaN(Number(ayahNumber[1]))
+  ? `${Number(ayahNumber[0])}:${Number(ayahNumber[1])}`
+  : null;
   if (pageNumber) {
     await sendPage(pageNumber, chatId, bot);
     return;
@@ -148,11 +147,13 @@ async function handleTextMessage(msg) {
   await bot.sendMessage(
     chatId,
     `You can't send messages, only commands. \n ${preStored.commands}`
-  );
-}
+    );
+  }
+  
+  
 
-
-
-
-// Export the handler function for Netlify
-app.use("/.netlify/functions/update", router)
+  
+  // Export the handler function for Netlify
+  app.use("/.netlify/functions/update", router)
+  
+  module.exports.handler = serverless(app)
