@@ -133,6 +133,7 @@ async function handleTextMessage(msg) {
     const message = JSON.parse(event.body);
     bot.processUpdate(message)
     return {
-      statusCode: 200
+      statusCode: 200,
+      body: ''
     }
   }
