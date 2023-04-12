@@ -22,7 +22,7 @@ app.use(express.json())
 
 router.post(`/bot${token}`, async (req, res) => {
   await bot.processUpdate(req.body.message);
-  console.log(req.body)
+  console.log(req.body.message)
   res.sendStatus(200);
 });
 
