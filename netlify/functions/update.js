@@ -23,9 +23,10 @@ let result = bot.setWebHook(`${url}/bot${token}`, {
   allowed_updates: ["message"]
 })
 
-router.post(`/bot${token}`, (req, res) => {
+router.post(`/bot${token}`, async (req, res) => {
   try{
-    bot.processUpdate(req.body);
+    await bot.processUpdate(req.body);
+    console.log("passed")
   }catch(e){
     console.error(e, "error occured")
   }
