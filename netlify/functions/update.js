@@ -19,9 +19,10 @@ const router = express.Router();
 const app = express();
 app.use(express.json())
 app.use(cors())
-let result = bot.setWebHook(`${url}/bot${token}`, {
+bot.setWebHook(`${url}/bot${token}`, {
   allowed_updates: ["message"]
 })
+bot.openWebHook()
 
 router.post(`/bot${token}`, async (req, res) => {
   bot.processUpdate(req.body)
