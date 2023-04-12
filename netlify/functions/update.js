@@ -9,18 +9,14 @@ const {
   sendPage,
   sendPageTafsir,
 } = require("../../quran-api.js");
-const cors = require("cors")
 require("dotenv").config();
 
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token);
 const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
-bot.setWebHook(`${url}/bot${token}`, {
+bot.setWebHook(url, {
   allowed_updates: ["message"]
 })
-const app = express();
-app.use(cors())
-const router = express.Router();
 
 
 // Start Express Server
@@ -133,25 +129,7 @@ async function handleTextMessage(msg) {
   }
   
   
-  router.post(`/bot${token}`, async (req, res) => {
-    const message = JSON.parse(req.apiGateway.event.body);
-    console.log(message);
-    bot.processUpdate(message);
-    res.sendStatus(200);
-  });
-  
-  router.get(`/bot${token}`, async (req, res) => {
-    console.log("console.log()")
-    res.sendStatus(200);
-  });
-  
-  
-  router.get("/", async(req, res)=>{
-    res.send("hi")
-  })
-  
-  
-  // Export the handler function for Netlify
-  app.use("/.netlify/functions/update", router)
-  
-  module.exports.handler = serverless(app)
+  module.exports.handler = (event, context)=>{
+    console.log(event)
+    bot.sendMessage(1326076292, JSON.stringify(context))
+  }
