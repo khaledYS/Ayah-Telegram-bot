@@ -22,7 +22,7 @@ const options = {
 };
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token);
-const url = `https://ayah-bot.netlify.app:${port}/.netlify/functions/update`;
+const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
 
 bot.setWebHook(`${url}/bot${token}`);
 
