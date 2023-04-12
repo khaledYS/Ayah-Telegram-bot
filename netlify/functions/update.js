@@ -12,17 +12,17 @@ const {
 const serverless = require("serverless-http")
 require("dotenv").config();
 
-const port = 443;
+const port = process.env.TOKEN || 3000;
 
 const options = {
   webHook: {
     // Just use 443 directly
-    port: 443
+    port: port
   }
 };
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token, options);
-const url = 'YOUR_DOMAIN_ALIAS' || process.env.NOW_URL;
+const url = 'https://ayah-bot.netlify.app/.netlify/functions/update';
 
 bot.setWebHook(`${url}/bot${token}`);
 
