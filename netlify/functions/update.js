@@ -1,7 +1,7 @@
 const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
 const app = express();
-const serverless = require('netlify-lambda');
+const serverless = require('serverless-http');
 const { getRandomAyah, getRandomPage, preStored } = require("../../utils");
 const {
   sendAyahTafsir,
@@ -40,7 +40,7 @@ router.get(`/bot${token}`, (req, res) => {
 });
 
 // Start Express Server
-app.use(router)
+app.use("/.netlify/functions/update",router)
 
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, preStored.start);
