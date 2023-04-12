@@ -10,7 +10,6 @@ const {
   sendPage,
   sendPageTafsir,
 } = require("../../quran-api.js");
-const serverless = require("serverless-http")
 require("dotenv").config();
 
 const port = process.env.PORT || 3000;
