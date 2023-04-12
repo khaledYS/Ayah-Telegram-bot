@@ -41,7 +41,7 @@ app.get(`/bot${token}`, (req, res) => {
 
 // Start Express Server
 app.listen(port, () => {
-  console.log(`Express server is listening on ${port}`);
+  console.log(`Express server is listening on ${port, JSON.stringify(app)}`);
 });
 
 
