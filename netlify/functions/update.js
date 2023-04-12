@@ -136,7 +136,13 @@ async function handleTextMessage(msg) {
   router.post(`/bot${token}`, async (req, res) => {
     const message = JSON.parse(req.apiGateway.event.body);
     console.log(message);
+    bot.on("message", (msg)=>{
+      console.log("you did't 1")
+    })
     bot.processUpdate(message);
+    bot.on("message", (msg)=>{
+      console.log("you did't 2")
+    })
     res.sendStatus(200);
   });
   
