@@ -15,15 +15,15 @@ require("dotenv").config();
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token);
 const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
-const router = express.Router();
 const app = express();
+const router = express.Router();
 app.use(cors())
 bot.setWebHook(`${url}/bot${token}`, {
   allowed_updates: ["message"]
 })
 
 router.post(`/bot${token}`, async (req, res) => {
-  console.log(req)
+  console.log(req.body)
   bot.processUpdate(req.body)
   res.sendStatus(200);
 });
