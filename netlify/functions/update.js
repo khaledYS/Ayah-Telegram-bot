@@ -80,8 +80,6 @@ bot.on("callback_query", async (query) => {
 
 bot.on("message", async (msg) => {
   console.log(msg)
-  await bot.sendMessage(1326076292, JSON.stringify(msg))
-  await bot.sendMessage(msg.chat.id, msg.text)
   // Check if the message matches the command pattern
   const commandRegex = /^\/([a-zA-Z0-9]+)(\s+(.*))?$/;
   try {
@@ -128,13 +126,17 @@ async function handleTextMessage(msg) {
     );
   }
   
-  let updateID = null;
-  module.exports.handler = (event, context)=>{
+  let messageId = null;
+  module.exports.handler = async (event, context)=>{
     const message = JSON.parse(event.body);
-    console.log("hii", message, "hii")
-    // if(updateID === null || updateID){
-      bot.processUpdate(message)
-    // }else if ()
+    const _messageId = message.update_id;
+    console.log("hii", {_messageId}, "hii")
+    if(messageId === null ){
+      messageId = _messageId;
+      await bot.processUpdate(message)
+    }else if (messageId != _messageId){
+      await bot.processUpdate(message)
+    }
     return {
       statusCode: 200,
       body: {}
