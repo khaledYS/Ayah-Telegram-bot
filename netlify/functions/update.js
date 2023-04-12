@@ -23,8 +23,9 @@ bot.setWebHook(`${url}/bot${token}`, {
 })
 
 router.post(`/bot${token}`, async (req, res) => {
-  console.log(req)
-  bot.processUpdate(req.body)
+  const message = JSON.parse(req.apiGateway.event.body);
+  console.log(message);
+  bot.processUpdate(message);
   res.sendStatus(200);
 });
 
