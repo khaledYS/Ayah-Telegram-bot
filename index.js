@@ -30,10 +30,11 @@ bot.onText(/\/commands/, async (msg) => {
 });
 // Respond to /ayah command
 bot.onText(/\/ayah/, async (msg) => {
-    console.log("hi1")
+    try{console.log("hi1")
     const chatId = msg.chat.id;
     console.log("hi2")
-    await bot.sendChatAction(msg.chat.id, "typing");
+    // await bot.sendChatAction()
+    // await bot.sendChatAction(msg.chat.id, "typing");
     console.log("hi3")
     const ayahNumber = getRandomAyah();
     console.log("hi4")
@@ -42,7 +43,9 @@ bot.onText(/\/ayah/, async (msg) => {
     await bot.sendMessage(msg.chat.id, text, ayahOptions(ayah, text));
     console.log("hi6")
     console.log({msg, ayah, text, ayahNumber, chatId})
-    console.log("hi7")
+    console.log("hi7")}catch (err){
+        console.log("error occured", err)
+    }
 });
 // Respond to /page command
 bot.onText(/\/page/, async (msg) => {
