@@ -2,22 +2,18 @@ const { default: axios } = require("axios")
 const {pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions} = require("./utils")
 
 
-module.exports.sendAyah = async function sendAyah(ayahNumber) {
-    console.log(ayahNumber, "bb1")
+module.exports.getAyah = async function getAyah(ayahNumber) {
     try{
-        const respond = await axios.get(`https://api.alquran.cloud/v1/ayah/33/quran-uthmani`).then(e=>{console.log(e)})
+        const respond = await axios.get(`https://api.alquran.cloud/v1/ayah/${ayahNumber}/quran-uthmani`)
         const ayah = respond.data.data;
-        console.log(ayahNumber, "bb3")
         const text = `${ayah.text} \n[${ayah.surah.name}](${ayah.numberInSurah})`;
-        console.log(ayahNumber, "bb4")
-        return {ayah, text};
+        return [ayah, text];
     }catch(er){
         console.log(er)
-        return {ayah: "", text: ""}
+        return {ayah: 404, text: "error handling ayah"}
     }
 }
-module.exports.sendAyahTafsir = async function sendAyahTafsir(ayahNumber, chatId, bot) {
-    await bot.sendChatAction(chatId, "typing");
+module.exports.getAyahTafsir = async function getAyahTafsir(ayahNumber) {
     const respond = await axios.get(
         `https://api.alquran.cloud/v1/ayah/${ayahNumber}/ar.muyassar`
     );
@@ -25,18 +21,17 @@ module.exports.sendAyahTafsir = async function sendAyahTafsir(ayahNumber, chatId
     const text = `تفسير ${tafsiredAyah.surah.name} \n ${tafsiredAyah.numberInSurah}-${tafsiredAyah.text}`;
     await bot.sendMessage(chatId, text, tafsirAyahOptions(tafsiredAyah, text));
 }
-module.exports.sendAyahAudio = async function sendAyahAudio(ayahNumber, chatId, bot) {
+module.exports.getAyahAudio = async function getAyahAudio(ayahNumber) {
     await bot.sendChatAction(chatId, "record_voice");
     const respond = await axios.get(
         `https://api.alquran.cloud/v1/ayah/${ayahNumber}/ar.abdurrahmaansudais`
     );
     const ayah = respond.data.data;
     const audioUrl = ayah.audio; // Replace with the URL of the audio file
-    await bot.sendAudio(chatId, audioUrl)
+    await bot.getAudio(chatId, audioUrl)
 }
 
-module.exports.sendPage = async function sendPage(pageNumber, chatId, bot) {
-    await bot.sendChatAction(chatId, "typing");
+module.exports.getPage = async function getPage(pageNumber) {
     const respond = await axios.get(
         `https://api.alquran.cloud/v1/page/${pageNumber}/quran-uthmani`
     );
@@ -50,10 +45,9 @@ module.exports.sendPage = async function sendPage(pageNumber, chatId, bot) {
         return text;
     })
     surahs = `${surahs.join("")} \n\n\n صفحة صـ${page.number}`
-    await bot.sendMessage(chatId, surahs, pageOptions(page, surahs));
+    return [page, surahs]
 }
-module.exports.sendPageTafsir = async function sendPageTafsir(pageNumber, chatId, bot) {
-    await bot.sendChatAction(chatId, "typing");
+module.exports.getPageTafsir = async function getPageTafsir(pageNumber) {
     const respond = await axios.get(
         `https://api.alquran.cloud/v1/page/${pageNumber}/ar.muyassar`
     );
