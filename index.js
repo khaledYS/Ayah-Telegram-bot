@@ -30,11 +30,12 @@ bot.onText(/\/commands/, async (msg) => {
 });
 // Respond to /ayah command
 bot.onText(/\/ayah/, async (msg) => {
-    console.log({msg})
+    const chatId = msg.chat.id;
     await bot.sendChatAction(msg.chat.id, "typing");
     const ayahNumber = getRandomAyah();
     const {ayah, text} = await sendAyah(ayahNumber);
     await bot.sendMessage(msg.chat.id, text, ayahOptions(ayah, text));
+    console.log({msg, ayah, text, ayahNumber, chatId})
 });
 // Respond to /page command
 bot.onText(/\/page/, async (msg) => {
