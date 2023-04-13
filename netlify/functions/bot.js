@@ -7,7 +7,7 @@ const router = express.Router();
 router.all("/", async (req, res)=>{
     console.log(req.body)
     console.log("recieved")
-    await bot.processUpdate(req.body)
+    bot.processUpdate(req.body)
     res.sendStatus(200)
 })
 
