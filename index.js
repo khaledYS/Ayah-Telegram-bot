@@ -1,7 +1,7 @@
 const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
 const serverless = require('serverless-http');
-const { getRandomAyah, getRandomPage, preStored } = require("./utils");
+const { getRandomAyah, getRandomPage, preStored, ayahOptions } = require("./utils");
 const {
     sendAyahTafsir,
     sendAyah,
@@ -33,7 +33,8 @@ bot.onText(/\/ayah/, async (msg) => {
     console.log({msg})
     await bot.sendChatAction(msg.chat.id, "typing");
     const ayahNumber = getRandomAyah();
-    await sendAyah(ayahNumber, msg.chat.id, bot);
+    const {ayah, text} = await sendAyah(ayahNumber);
+    await bot.sendMessage(msg.chat.id, text, ayahOptions(ayah, text));
 });
 // Respond to /page command
 bot.onText(/\/page/, async (msg) => {

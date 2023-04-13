@@ -2,14 +2,13 @@ const axios = require("axios")
 const {pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions} = require("./utils")
 
 
-module.exports.sendAyah = async function sendAyah(ayahNumber, chatId, bot) {
-    await bot.sendChatAction(chatId, "typing");
+module.exports.sendAyah = async function sendAyah(ayahNumber) {
     const respond = await axios.get(
         `https://api.alquran.cloud/v1/ayah/${ayahNumber}/quran-uthmani`
     );
     const ayah = respond.data.data;
     const text = `${ayah.text} \n[${ayah.surah.name}](${ayah.numberInSurah})`;
-    await bot.sendMessage(chatId, text, ayahOptions(ayah, text));
+    return {ayah, text};
 }
 module.exports.sendAyahTafsir = async function sendAyahTafsir(ayahNumber, chatId, bot) {
     await bot.sendChatAction(chatId, "typing");
