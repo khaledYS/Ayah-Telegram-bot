@@ -2,7 +2,6 @@
   "name": "telegram_bot",
   "version": "1.0.0",
   "description": "",
-  "main": "./netlify/functions/update.js",
   "engines": {
     "node": "13.x"
   },
