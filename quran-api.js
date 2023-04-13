@@ -1,13 +1,11 @@
-const axios = require("axios")
+const { default: axios } = require("axios")
 const {pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions} = require("./utils")
 
 
 module.exports.sendAyah = async function sendAyah(ayahNumber) {
     console.log(ayahNumber, "bb1")
     try{
-        const respond = await axios.get(
-            `https://api.alquran.cloud/v1/ayah/${ayahNumber}/quran-uthmani`
-        );
+        const respond = await axios.get(`https://api.alquran.cloud/v1/ayah/33/quran-uthmani`)
         console.log(ayahNumber, "bb2")
         const ayah = respond.data.data;
         console.log(ayahNumber, "bb3")
