@@ -3,11 +3,15 @@ const {pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions} = require
 
 
 module.exports.sendAyah = async function sendAyah(ayahNumber) {
+    console.log(ayahNumber, "bb1")
     const respond = await axios.get(
         `https://api.alquran.cloud/v1/ayah/${ayahNumber}/quran-uthmani`
     );
+    console.log(ayahNumber, "bb2")
     const ayah = respond.data.data;
+    console.log(ayahNumber, "bb3")
     const text = `${ayah.text} \n[${ayah.surah.name}](${ayah.numberInSurah})`;
+    console.log(ayahNumber, "bb4")
     return {ayah, text};
 }
 module.exports.sendAyahTafsir = async function sendAyahTafsir(ayahNumber, chatId, bot) {
