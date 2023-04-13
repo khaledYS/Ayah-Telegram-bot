@@ -79,7 +79,7 @@ bot.on("callback_query", async (query) => {
 });
 
 bot.on("message", async (msg) => {
-  console.log(msg)
+  console.log(msg, "bbb")
   // Check if the message matches the command pattern
   const commandRegex = /^\/([a-zA-Z0-9]+)(\s+(.*))?$/;
   try {
