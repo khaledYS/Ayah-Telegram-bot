@@ -5,8 +5,7 @@ const {pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions} = require
 module.exports.sendAyah = async function sendAyah(ayahNumber) {
     console.log(ayahNumber, "bb1")
     try{
-        const respond = await axios.get(`https://api.alquran.cloud/v1/ayah/33/quran-uthmani`)
-        console.log(ayahNumber, "bb2")
+        const respond = await axios.get(`https://api.alquran.cloud/v1/ayah/33/quran-uthmani`).then(e=>{console.log(e)})
         const ayah = respond.data.data;
         console.log(ayahNumber, "bb3")
         const text = `${ayah.text} \n[${ayah.surah.name}](${ayah.numberInSurah})`;
