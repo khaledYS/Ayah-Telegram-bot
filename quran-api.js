@@ -19,16 +19,15 @@ module.exports.getAyahTafsir = async function getAyahTafsir(ayahNumber) {
     );
     const tafsiredAyah = respond.data.data;
     const text = `تفسير ${tafsiredAyah.surah.name} \n ${tafsiredAyah.numberInSurah}-${tafsiredAyah.text}`;
-    await bot.sendMessage(chatId, text, tafsirAyahOptions(tafsiredAyah, text));
+    return [tafsiredAyah, text]
 }
 module.exports.getAyahAudio = async function getAyahAudio(ayahNumber) {
-    await bot.sendChatAction(chatId, "record_voice");
     const respond = await axios.get(
         `https://api.alquran.cloud/v1/ayah/${ayahNumber}/ar.abdurrahmaansudais`
     );
     const ayah = respond.data.data;
     const audioUrl = ayah.audio; // Replace with the URL of the audio file
-    await bot.getAudio(chatId, audioUrl)
+    return [ayah, audioUrl]
 }
 
 module.exports.getPage = async function getPage(pageNumber) {
@@ -61,6 +60,6 @@ module.exports.getPageTafsir = async function getPageTafsir(pageNumber) {
         return text;
     })
     text = `${text.join("\n")} \n\n صــ${tafsiredPage.number}`;
-    await bot.sendMessage(chatId, text, {...tafsirPageOptions(tafsiredPage, text)}).catch(e=>{bot.sendMessage(chatId, JSON.stringify(e))});
+    return [tafsiredPage, text] ;
 }
 
