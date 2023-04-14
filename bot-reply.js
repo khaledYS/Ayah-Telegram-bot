@@ -5,7 +5,11 @@ const { getAyah, getAyahTafsir, getAyahAudio, getPage, getPageTafsir } = require
 
 async function sendAyah(ctx, ayahNumber) {
     const [ayah, text] = await getAyah(ayahNumber);
-    await ctx.reply(text, ayahOptions(ayah, text));
+    if(ayah === 404){
+        ctx.reply(text)
+    }else{
+        await ctx.reply(text, ayahOptions(ayah, text));
+    }
 }
 async function sendAyahTafsir(ctx, ayahNumber) {
     const [ayah, text] = await getAyahTafsir(ayahNumber)
@@ -17,6 +21,10 @@ async function sendAyahAudio(ctx, ayahNumber) {
 }
 
 async function sendPage(ctx, pageNumber) {
+    if(pageNumber > 604 || pageNumber < 1){
+        ctx.reply("اختر رقم بين 604 و 1")
+        return ;
+    }
     const [page, text] = await getPage(pageNumber);
     await ctx.reply(text, pageOptions(page, text));
 }

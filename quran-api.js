@@ -3,14 +3,13 @@ const {pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions} = require
 
 
 module.exports.getAyah = async function getAyah(ayahNumber) {
-    try{
+    try{    
         const respond = await axios.get(`https://api.alquran.cloud/v1/ayah/${ayahNumber}/quran-uthmani`)
         const ayah = respond.data.data;
         const text = `${ayah.text} \n[${ayah.surah.name}](${ayah.numberInSurah})`;
         return [ayah, text];
     }catch(er){
-        console.log(er)
-        return {ayah: 404, text: "error handling ayah"}
+        return [404, "تأكد من رقم الآيه المدخل"]
     }
 }
 module.exports.getAyahTafsir = async function getAyahTafsir(ayahNumber) {
