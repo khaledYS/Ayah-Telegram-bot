@@ -58,7 +58,7 @@ async function handleTextMessage(ctx, text) {
         return;
     }
     // Handle regular text messages - !NOTE : must change this so they can accept surah:verse structure;
-    await ctx.editMessageText(
+    await ctx.reply(
         `You can't send messages, only commands. \n ${preStored.commands}`
     );
 }
