@@ -1,3 +1,4 @@
+
 module.exports.ayahOptions = function ayahOptions(ayah, text) {
   const ayahMovers = [
     ayah.number - 1 < 1
@@ -12,7 +13,7 @@ module.exports.ayahOptions = function ayahOptions(ayah, text) {
       inline_keyboard: [
         [{ text: "تفسير", callback_data: `tafsir_ayah|${ayah.number}` }],
         [...ayahMovers.filter((value) => value !== null)],
-        [{text: "صوتيه🔊", callback_data: `ayah_audio|${ayah.number}`}],
+        [{ text: "صوتيه🔊", callback_data: `ayah_audio|${ayah.number}` }],
         [
           {
             text: "شارك الآيه",
@@ -35,6 +36,7 @@ module.exports.tafsirAyahOptions = function tafsirAyahOptions(ayah, text) {
   return {
     reply_markup: {
       inline_keyboard: [
+        [{text: "الرجوع للآية 📖", callback_data: `backto_ayah|${ayah.number}`}],
         [...ayahMovers.filter((value) => value !== null)],
         [
           {
@@ -48,7 +50,7 @@ module.exports.tafsirAyahOptions = function tafsirAyahOptions(ayah, text) {
 }
 
 
-module.exports.pageOptions = function pageOptions (page, text) {
+module.exports.pageOptions = function pageOptions(page, text) {
   const pageMovers = [
     page.number - 1 < 1
       ? null
@@ -72,7 +74,7 @@ module.exports.pageOptions = function pageOptions (page, text) {
     },
   };
 }
-module.exports.tafsirPageOptions = function tafsirPageOptions (page, text) {
+module.exports.tafsirPageOptions = function tafsirPageOptions(page, text) {
   const pageMovers = [
     page.number - 1 < 1
       ? null
@@ -84,6 +86,7 @@ module.exports.tafsirPageOptions = function tafsirPageOptions (page, text) {
   return {
     reply_markup: {
       inline_keyboard: [
+        [{text: "الرجوع للصفحة 📖", callback_data: `backto_page|${page.number}`}],
         [...pageMovers.filter((value) => value !== null)],
         [
           {
@@ -96,7 +99,7 @@ module.exports.tafsirPageOptions = function tafsirPageOptions (page, text) {
   };
 }
 
-module.exports.getRandomAyah = function getRandomAyah () {
+module.exports.getRandomAyah = function getRandomAyah() {
   // Get the total number of ayahs in the Quran
   const totalAyahs = 6236;
 
@@ -106,7 +109,7 @@ module.exports.getRandomAyah = function getRandomAyah () {
   return randomAyahNumber;
 };
 
-module.exports.getRandomPage = function getRandomPage (){
+module.exports.getRandomPage = function getRandomPage() {
   // Get the total number of ayahs in the Quran
   const totalAyahs = 604;
 
@@ -116,10 +119,27 @@ module.exports.getRandomPage = function getRandomPage (){
   return randomPageNumber;
 };
 
+exports.sendWaitingMessage = async function (ctx) {
+  const waitingText = "يتم معالجة الطلب 🔍......"
+  let messageId = ctx.update?.callback_query?.message?.message_id;
+  let chatId = ctx.update?.callback_query?.message?.chat?.id;
+  if (!messageId) {
+    const waitingMessage = await ctx.reply(waitingText)
+    messageId = waitingMessage.message_id;
+    chatId = waitingMessage.chat.id;
+  } else {
+    await ctx.telegram.editMessageText(chatId, messageId, undefined, waitingText);
+  }
+  const sendWhenFinish = async (text, options)=>{
+    await ctx.telegram.editMessageText(chatId, messageId, undefined, text, options);
+  }
+  return [sendWhenFinish, {chatId, messageId}];
+}
 
-module.exports.preStored  = {
+
+module.exports.preStored = {
   commands:
-  "/ayah - آية من القرآن الكريم بشكل عشوائي \n/page - صفحة من القرآن الكريم بشكل عشوائي\n/subscribe - اشترك في الآيات التي تُرسل بشكل عشوائي🙊\n/unsubscribe - الغي الاشتراك",
+    "/ayah - آية من القرآن الكريم بشكل عشوائي \n/page - صفحة من القرآن الكريم بشكل عشوائي\n/subscribe - اشترك في الآيات التي تُرسل بشكل عشوائي🙊\n/unsubscribe - الغي الاشتراك",
   start:
-  "نورت البوت !!! ارسل /commands لمعرفة الأوامر الممكنه",
+    "نورت البوت !!! ارسل /commands لمعرفة الأوامر الممكنه",
 };

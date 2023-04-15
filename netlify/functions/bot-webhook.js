@@ -1,6 +1,6 @@
 const serverless = require("serverless-http");
 const express = require("express");
-const { bot } = require("../../bot");
+const { bot} = require("../../bot");
 const cors = require("cors");
 const app = express();
 const router = express.Router();
@@ -15,8 +15,8 @@ router.post(`/${token}`, async (req, res)=>{
         await bot.handleUpdate(message)
         res.status(200).json({body: ""})
     }catch(err){
-        console.log(err)
-        res.status(409).json({body:"error didn't find out"})
+        console.log(err);
+        res.status(409).json({body:"error didn't find out "})
     }
 })
 router.get("/", async(req, res)=>{

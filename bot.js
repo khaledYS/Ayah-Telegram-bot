@@ -8,7 +8,7 @@ require("dotenv").config();
 const token = process.env.TOKEN;
 const bot = new Telegraf(token);
 const url = `https://ayah-bot.netlify.app/.netlify/functions/update`;
- 
+
 // Start command
 bot.command("start", async (ctx)=>{
     const res = await ctx.reply(preStored.start);
@@ -57,6 +57,10 @@ bot.on("callback_query", async (ctx)=>{
         await sendAyahTafsir(ctx, Number(data[0]) - 1);
     } else if (option === "next_tafsir_ayah") {
         await sendAyahTafsir(ctx, Number(data[0]) + 1);
+    }else if (option === "backto_page"){
+        await sendPage(ctx, Number(data[0]))
+    }else if (option === "backto_ayah"){
+        await sendAyah(ctx, Number(data[0]))
     }
 })
 

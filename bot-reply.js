@@ -1,19 +1,20 @@
 const { default: axios } = require("axios")
-const { pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions, preStored } = require("./utils");
+const { pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions, sendWaitingMessage } = require("./utils");
 const { getAyah, getAyahTafsir, getAyahAudio, getPage, getPageTafsir } = require("./quran-api");
 
-
 async function sendAyah(ctx, ayahNumber) {
+    const [sendWhenFinish] = await sendWaitingMessage(ctx);
     const [ayah, text] = await getAyah(ayahNumber);
     if(ayah === 404){
         ctx.reply(text)
     }else{
-        await ctx.reply(text, ayahOptions(ayah, text));
+        await sendWhenFinish(text, ayahOptions(ayah, text))
     }
 }
 async function sendAyahTafsir(ctx, ayahNumber) {
+    const [sendWhenFinish] = await sendWaitingMessage(ctx);
     const [ayah, text] = await getAyahTafsir(ayahNumber)
-    await ctx.reply(text, tafsirAyahOptions(ayah, text))
+    await sendWhenFinish(text, tafsirAyahOptions(ayah, text))
 }
 async function sendAyahAudio(ctx, ayahNumber) {
     const [ayah, text] = await getAyahAudio(ayahNumber);
@@ -25,12 +26,14 @@ async function sendPage(ctx, pageNumber) {
         ctx.reply("اختر رقم بين 604 و 1")
         return ;
     }
+    const [sendWhenFinish] = await sendWaitingMessage(ctx);
     const [page, text] = await getPage(pageNumber);
-    await ctx.reply(text, pageOptions(page, text));
+    await sendWhenFinish(text, pageOptions(page, text));
 }
 async function sendPageTafsir(ctx, pageNumber) {
+    const [sendWhenFinish] = await sendWaitingMessage(ctx);
     const [page, text] = await getPageTafsir(pageNumber);
-    await ctx.reply(text, tafsirPageOptions(page, text))
+    await sendWhenFinish(text, tafsirPageOptions(page, text))
 
 }
 
@@ -56,7 +59,7 @@ async function handleTextMessage(ctx, text) {
         return;
     }
     // Handle regular text messages - !NOTE : must change this so they can accept surah:verse structure;
-    await ctx.reply(
+    await ctx.editMessageText(
         `You can't send messages, only commands. \n ${preStored.commands}`
     );
 }
