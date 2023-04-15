@@ -1,5 +1,5 @@
 const { default: axios } = require("axios")
-const { pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions, sendWaitingMessage } = require("./utils");
+const { pageOptions, ayahOptions, tafsirAyahOptions, tafsirPageOptions, sendWaitingMessage, preStored } = require("./utils");
 const { getAyah, getAyahTafsir, getAyahAudio, getPage, getPageTafsir } = require("./quran-api");
 
 async function sendAyah(ctx, ayahNumber) {
@@ -50,7 +50,6 @@ async function handleTextMessage(ctx, text) {
             !isNaN(Number(ayahNumber[1]))
             ? `${Number(ayahNumber[0])}:${Number(ayahNumber[1])}`
             : null;
-    console.log({ pageNumber, ayahNumber })
     if (pageNumber) {
         await sendPage(ctx, pageNumber);
         return;
