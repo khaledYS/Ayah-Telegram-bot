@@ -36,7 +36,7 @@ module.exports.tafsirAyahOptions = function tafsirAyahOptions(ayah, text) {
   return {
     reply_markup: {
       inline_keyboard: [
-        [{text: "الرجوع للآية 📖", callback_data: `backto_ayah|${ayah.number}`}],
+        [{ text: "الرجوع للآية 📖", callback_data: `backto_ayah|${ayah.number}` }],
         [...ayahMovers.filter((value) => value !== null)],
         [
           {
@@ -86,7 +86,7 @@ module.exports.tafsirPageOptions = function tafsirPageOptions(page, text) {
   return {
     reply_markup: {
       inline_keyboard: [
-        [{text: "الرجوع للصفحة 📖", callback_data: `backto_page|${page.number}`}],
+        [{ text: "الرجوع للصفحة 📖", callback_data: `backto_page|${page.number}` }],
         [...pageMovers.filter((value) => value !== null)],
         [
           {
@@ -124,16 +124,18 @@ exports.sendWaitingMessage = async function (ctx) {
   let messageId = ctx.update?.callback_query?.message?.message_id;
   let chatId = ctx.update?.callback_query?.message?.chat?.id;
   if (!messageId) {
-    const waitingMessage = await ctx.reply(waitingText)
+    const userMessageId = ctx.update?.message?.message_id;
+    const waitingMessage = await ctx.reply(waitingText, { reply_to_message_id: userMessageId, allow_sending_without_reply: true })
     messageId = waitingMessage.message_id;
     chatId = waitingMessage.chat.id;
   } else {
+    console.log(messageId)
     await ctx.telegram.editMessageText(chatId, messageId, undefined, waitingText);
   }
-  const sendWhenFinish = async (text, options)=>{
+  const sendWhenFinish = async (text, options) => {
     await ctx.telegram.editMessageText(chatId, messageId, undefined, text, options);
   }
-  return [sendWhenFinish, {chatId, messageId}];
+  return [sendWhenFinish, { chatId, messageId }];
 }
 
 

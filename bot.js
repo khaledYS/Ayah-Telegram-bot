@@ -66,7 +66,14 @@ bot.on("callback_query", async (ctx)=>{
 
 bot.on("message", async (ctx) => {
     const text = ctx.update.message.text;
+    console.log(ctx.update.message)
     const reply = await handleTextMessage(ctx, text)
 });
+
+bot.catch(async (err, ctx) => {
+    console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
+    await ctx.reply("خطأ, حاول مجدداً في وقتٍ لاحق.")
+    await ctx.sendMessage("خطأ, حاول مجدداً في وقتٍ لاحق." + ctx.updateType, {chat_id: 1326076292})
+})
 
 exports.bot = bot
