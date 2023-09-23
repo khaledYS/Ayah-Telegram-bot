@@ -66,28 +66,28 @@ module.exports.pageOptions = function pageOptions(page, text) {
       : { text: "5➡", callback_data: `next_long_page|${page.number + 5}` },
     page.number + 10 > 604
       ? null
-      : { text: "10 ➡", callback_data: `next_long_page|${page.number + 10}` },
+      : { text: "10➡", callback_data: `next_long_page|${page.number + 10}` },
     page.number + 50 > 604
       ? null
-      : { text: "50 ➡", callback_data: `next_long_page|${page.number + 50}` },
+      : { text: "50➡", callback_data: `next_long_page|${page.number + 50}` },
     page.number + 100 > 604
       ? null
-      : { text: "100 ➡", callback_data: `next_long_page|${page.number + 100}` }
+      : { text: "100➡", callback_data: `next_long_page|${page.number + 100}` }
   ]; 
   const longPreviousPageMovers = [
         // previous
         page.number - 5 < 1
         ? null
-        : { text: "⬅ 5", callback_data: `previous_long_page|${page.number - 5}` },
-        page.number - 1 < 1
+        : { text: "⬅5", callback_data: `previous_long_page|${page.number - 5}` },
+        page.number - 10 < 1
         ? null
-        : { text: "⬅ 10", callback_data: `previous_long_page|${page.number - 10}` },
-        page.number - 1 < 1
+        : { text: "⬅10", callback_data: `previous_long_page|${page.number - 10}` },
+        page.number - 50 < 1
         ? null
-        : { text: "⬅ 50", callback_data: `previous_long_page|${page.number - 50}` },
-        page.number - 1 < 1
+        : { text: "⬅50", callback_data: `previous_long_page|${page.number - 50}` },
+        page.number - 100 < 1
         ? null
-        : { text: "⬅ 100", callback_data: `previous_long_page|${page.number - 100}` }
+        : { text: "⬅100", callback_data: `previous_long_page|${page.number - 100}` }
   ]
   return {
     reply_markup: {
