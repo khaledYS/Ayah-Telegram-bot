@@ -59,11 +59,46 @@ module.exports.pageOptions = function pageOptions(page, text) {
       ? null
       : { text: "التالي ➡", callback_data: `next_page|${page.number}` },
   ];
+  const longPageMovers = [
+    // next
+    page.number + 1 > 604
+      ? null
+      : { text: "5 ➡", callback_data: `next_long_page|${page.number + 1}` },
+    page.number + 5 > 604
+      ? null
+      : { text: "5 ➡", callback_data: `next_long_page|${page.number + 5}` },
+    page.number + 10 > 604
+      ? null
+      : { text: "10 ➡", callback_data: `next_long_page|${page.number + 10}` },
+    page.number + 50 > 604
+      ? null
+      : { text: "50 ➡", callback_data: `next_long_page|${page.number + 50}` },
+    page.number + 100 > 604
+      ? null
+      : { text: "100 ➡", callback_data: `next_long_page|${page.number + 100}` },
+    // previous
+    page.number - 1 < 1
+      ? null
+      : { text: "⬅ 1", callback_data: `previous_long_page|${page.number - 1}` },
+      page.number - 5 < 1
+      ? null
+      : { text: "⬅ 5", callback_data: `precious_long_page|${page.number - 5}` },
+      page.number - 1 < 1
+      ? null
+      : { text: "⬅ 10", callback_data: `precious_long_page|${page.number - 10}` },
+      page.number - 1 < 1
+      ? null
+      : { text: "⬅ 50", callback_data: `precious_long_page|${page.number - 50}` },
+      page.number - 1 < 1
+      ? null
+      : { text: "⬅ 100", callback_data: `precious_long_page|${page.number - 100}` },
+  ];
   return {
     reply_markup: {
       inline_keyboard: [
         [{ text: "تفسير", callback_data: `tafsir_page|${page.number}` }],
         [...pageMovers.filter((value) => value !== null)],
+        [...longPageMovers.filter((value) => value !== null)],
         [
           {
             text: "شارك الصفحة",
@@ -87,6 +122,7 @@ module.exports.tafsirPageOptions = function tafsirPageOptions(page, text) {
     reply_markup: {
       inline_keyboard: [
         [{ text: "الرجوع للصفحة 📖", callback_data: `backto_page|${page.number}` }],
+        [...pageMovers.filter((value) => value !== null)],
         [...pageMovers.filter((value) => value !== null)],
         [
           {

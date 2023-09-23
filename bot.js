@@ -45,6 +45,8 @@ bot.on("callback_query", async (ctx)=>{
         await sendPage(ctx, Number(data[0]) + 1);
     } else if (option === "previous_page") {
         await sendPage(ctx, Number(data[0]) - 1);
+    } else if (option === "previous_long_page" || option === "next_long_page") {
+        await sendPage(ctx, Number(data[0]));
     } else if (option === "ayah_audio") {
         await sendAyahAudio(ctx, Number(data[0]));
     } else if (option === "tafsir_page") {

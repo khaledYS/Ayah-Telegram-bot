@@ -10,7 +10,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.0.1",
     "serverless-http": "^3.2.0",
     "telegraf": "^4.12.2"
   },
@@ -22,7 +22,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "netlify-cli": "^13.2.2",
+    "netlify-cli": "^16.4.2",
     "node-ngrok-cli": "^0.0.2"
   }
 }
