@@ -61,12 +61,9 @@ module.exports.pageOptions = function pageOptions(page, text) {
   ];
   const longNextPageMovers = [
     // next
-    page.number + 1 > 604
-      ? null
-      : { text: "5 ➡", callback_data: `next_long_page|${page.number + 1}` },
     page.number + 5 > 604
       ? null
-      : { text: "5 ➡", callback_data: `next_long_page|${page.number + 5}` },
+      : { text: "5➡", callback_data: `next_long_page|${page.number + 5}` },
     page.number + 10 > 604
       ? null
       : { text: "10 ➡", callback_data: `next_long_page|${page.number + 10}` },
@@ -79,9 +76,6 @@ module.exports.pageOptions = function pageOptions(page, text) {
   ]; 
   const longPreviousPageMovers = [
         // previous
-        page.number - 1 < 1
-        ? null
-        : { text: "⬅ 1", callback_data: `previous_long_page|${page.number - 1}` },
         page.number - 5 < 1
         ? null
         : { text: "⬅ 5", callback_data: `previous_long_page|${page.number - 5}` },
@@ -93,7 +87,7 @@ module.exports.pageOptions = function pageOptions(page, text) {
         : { text: "⬅ 50", callback_data: `previous_long_page|${page.number - 50}` },
         page.number - 1 < 1
         ? null
-        : { text: "⬅ 100", callback_data: `previous_long_page|${page.number - 100}` },
+        : { text: "⬅ 100", callback_data: `previous_long_page|${page.number - 100}` }
   ]
   return {
     reply_markup: {
